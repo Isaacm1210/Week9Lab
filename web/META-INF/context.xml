@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/Week7Lab_ManageUsers"/>
+<Context path="/">
  
     <Resource name="jdbc/userdb" auth="Container" 
         driverClassName="com.mysql.jdbc.Driver"
@@ -9,4 +9,5 @@
         logAbandoned="true" removeAbandoned="true" 
         removeAbandonedTimeout="60" type="javax.sql.DataSource" />
 </Context>
+
 
