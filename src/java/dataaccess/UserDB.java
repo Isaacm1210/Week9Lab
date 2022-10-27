@@ -1,8 +1,15 @@
 
 package dataaccess;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+
+import models.Role;
 import models.User;
+import services.RoleService;
 
 /**
  *
@@ -10,8 +17,38 @@ import models.User;
  */
 public class UserDB {
     
-    public ArrayList<User> getAll(){
-        return null;
+    public ArrayList<User> getAll() throws Exception{
+        
+        ArrayList<User> users = new ArrayList<>();
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        RoleService rService = new RoleService();
+        
+        String sql = "SELECT * FROM USER";
+        
+        try{
+            ps = con.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                String email = rs.getString(1);
+                String firstname = rs.getString(2);
+                String lastname = rs.getString(3);
+                String password = rs.getString(4);
+                Role role = rService.getRole(rs.getInt(5));
+                User user = new User(email, firstname, lastname, password, role);
+                
+                users.add(user);
+            }
+            
+        }
+        finally{
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
+        return users;
     }
     
     public User getUser(){
@@ -25,4 +62,5 @@ public class UserDB {
     public void updateUser(){
         
     }
+
 }
