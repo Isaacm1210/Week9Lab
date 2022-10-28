@@ -3,6 +3,7 @@ package services;
 
 import dataaccess.UserDB;
 import java.util.ArrayList;
+import java.util.List;
 import models.User;
 
 /**
@@ -11,9 +12,9 @@ import models.User;
  */
 public class UserService {
     
-    public ArrayList<User> getAll() throws Exception{
+    public List<User> getAll() throws Exception{
         UserDB userDB = new UserDB();
-        ArrayList<User> user = userDB.getAll();
+        List<User> user = userDB.getAll();
         return user;  
     }
 }

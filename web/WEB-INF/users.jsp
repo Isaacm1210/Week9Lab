@@ -14,37 +14,30 @@
     </head>
     <body>
         <h1>Manage Users</h1>
+        <c:if test="${user.size() lt 1}">
+            <b>No users found. Please add a user.</b>
+        </c:if>
         
-        <c:choose>
-            <c:when test="${users.count gt 0}">
-                <table>
-                    <tr>
-                        <th><b>Email</b></th>
-                        <th><b>First Name</b></th>
-                        <th><b>Last Name</b></th>
-                        <th><b>Password</b></th>
-                        <th><b>Role</b></th>
-                    </tr>
-                    <c:forEach var="Variable" items="Variable">
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a href="User?action=edit">Edit</a></td>
-                            <td><a href="User?action=delete">Delete</a></td>
-                        </tr>
-                        
-                    </c:forEach>
-                    
-                </table>
-            </c:when>
-            <c:when test="${users.count == 0}">
-                <b>No Users found. Please add a user.</b>
-            </c:when>
-        </c:choose>
-        
+        <c:if test="${user.size() gt 0}">
+        <table border="1">
+            <tr>
+                <th>Email</th>
+                <th>Fist Name</th>
+                <th>last Name</th>
+                <th>Role</th>
+            </tr>
+            <c:forEach var="user" items="${user}">            
+            <tr>
+                <td>${user.email}</td>
+                <td>${user.firstname}</td>
+                <td>${user.lastname}</td>
+                <td>${user.role.roleName}</td>
+                <td><a href="">Edit</a></td>
+                <td><a href="">Delete</a></td>
+            </tr>
+        </c:forEach>
+        </table>
+        </c:if>
         <!-- display users table here-->
 
         <h2>Add Users</h2>

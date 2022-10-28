@@ -18,10 +18,10 @@ public class User implements Serializable{
         
     }
     
-    public User(String email, String firstname, String lastname, String password, Role role){
+    public User(String email, String firstName, String lastName, String password, Role role){
         this.email = email;
-        this.firstName = firstname;
-        this.lastName = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.role = role;
     }
@@ -38,16 +38,16 @@ public class User implements Serializable{
         return firstName;
     }
     
-    public void setFirstname(String firstname){
-        this.firstName = firstname;
+    public void setFirstname(String firstName){
+        this.firstName = firstName;
     }
     
     public String getLastname(){
         return lastName;
     }
     
-    public void setLastname(String lastname){
-        this.lastName = lastname;
+    public void setLastname(String lastName){
+        this.lastName = lastName;
     }
     
     public String getPassword(){
