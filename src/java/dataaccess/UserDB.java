@@ -133,24 +133,21 @@ public class UserDB {
         
     }
     
-    public void addUser() throws Exception{
+    public void addUser(User user) throws Exception{
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         ResultSet rs = null;
         
-        String sql = "INSERT INTO user " 
-                + "(email, firt_name, last_name, password, role) "
-                + "VALUES " 
-                + "(?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user(email, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?)";
         
         try{
             ps = con.prepareStatement(sql);
-            ps.setString(1, sql);
-            ps.setString(2, sql);
-            ps.setString(3, sql);
-            ps.setString(4, sql);
-            ps.setInt(5, 1);
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getFirstname());
+            ps.setString(3, user.getLastname());
+            ps.setString(4, user.getPassword());
+            ps.setInt(5, user.getRole().getRoleID());
             ps.executeUpdate();
         }
         finally{

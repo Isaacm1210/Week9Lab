@@ -11,9 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Role;
 
 
 import models.User;
+import services.RoleService;
 import services.UserService;
 /**
  *
@@ -67,7 +69,8 @@ public class UserServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
-        
+        UserService us = new UserService();
+        RoleService rs = new RoleService();
         
         //add user method
         if(action.equals("add")){
@@ -75,24 +78,42 @@ public class UserServlet extends HttpServlet {
             String firstname = request.getParameter("Fname");
             String lastname = request.getParameter("Lname");
             String password = request.getParameter("password");
-            String role = request.getParameter("role");
+            int roleID = Integer.parseInt(request.getParameter("role"));
+            request.setAttribute("message", roleID);
+            try {
+                Role role = rs.getRole(roleID);
+                us.addUser(email, firstname, lastname, password, role);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
         //update user method
         if(action.equals("Update")){
             session.setAttribute("change", "update");
             request.setAttribute("message", "update test");
-            getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+            
         }
         
         //cancle update
         if(action.equals("Cancel")){
             session.setAttribute("change", "canceled");
             request.setAttribute("message", "cancel test");
-            getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+            
         }
         
         //delete user method  
+        
+        
+        
+        try{
+            List<User> user = us.getAll();
+            request.setAttribute("user", user);
+        }
+        catch(Exception ex){
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
     }
 
 }

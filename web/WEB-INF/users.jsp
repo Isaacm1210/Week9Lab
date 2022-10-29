@@ -51,15 +51,10 @@
         <c:if test="${change eq 'edit'}">
              <h2>Edit Users</h2>
         <form action="User" method="post">
-            
             Email: ${editUser.email}<br>
-            
             First name: <input type="text" name="Fname" value="${editUser.firstname}"><br>
-            
             Last Name: <input type="text" name="Lname" value="${editUser.lastname}"><br>
-            
             Password: <input type="password" name="password"><br>
-            
             Role:
             <c:if test="${editUser.role.roleID == 1}">
             <select name="role"><br>
@@ -74,17 +69,10 @@
             </select> <br>
             </c:if>
             <input type="submit" value="Update" name="action">
-            
             <input type="submit" value="Cancel" name="action">
-            
         </form>
         </c:if>
-        
-             
-             
-             
-             
-             
+    
         <c:if test="${change ne 'edit'}">
         <h2>Add Users</h2>
         <form action="User?action=add" method="post">
