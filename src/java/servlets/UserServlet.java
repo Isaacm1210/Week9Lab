@@ -26,19 +26,35 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         
         HttpSession session = request.getSession();
-        
-        //display all users in table in users.jsp 
-        
         UserService us = new UserService();
         
         try{
             List<User> user = us.getAll();
-            request.setAttribute("user", user);
+            session.setAttribute("user", user);
         }
         catch(Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
+        
+        
+        String action = (String)request.getParameter("action");
+        String Email = (String)request.getParameter("Email");
+        
+        if(action != null && action.equals("edit")){
+            try {
+                request.setAttribute("Email", Email);
+                User editUser = us.getUser(Email);
+                request.setAttribute("editUser", editUser);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            session.setAttribute("change", "edit");  
+        }
+        
+        if(action != null && action.equals("delete")){
+            request.setAttribute("message", "Delete test");
+            request.setAttribute("Email", Email);
+        }
         
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
         
@@ -52,7 +68,7 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String action = request.getParameter("action");
         
-
+        
         //add user method
         if(action.equals("add")){
             String email = request.getParameter("email");
@@ -62,8 +78,19 @@ public class UserServlet extends HttpServlet {
             String role = request.getParameter("role");
         }
         
-        //edit user method
+        //update user method
+        if(action.equals("Update")){
+            session.setAttribute("change", "update");
+            request.setAttribute("message", "update test");
+            getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        }
         
+        //cancle update
+        if(action.equals("Cancel")){
+            session.setAttribute("change", "canceled");
+            request.setAttribute("message", "cancel test");
+            getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+        }
         
         //delete user method  
     }

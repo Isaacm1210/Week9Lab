@@ -17,4 +17,10 @@ public class UserService {
         List<User> user = userDB.getAll();
         return user;  
     }
+    
+    public User getUser(String email) throws Exception{
+        UserDB userDB = new UserDB();
+        User user = userDB.getUser(email);
+        return user;
+    }
 }
