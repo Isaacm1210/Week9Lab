@@ -48,6 +48,7 @@
         
         <c:if test="${change eq 'edit'}">
              <h2>Edit Users</h2>
+             <b>${message}</b>
         <form action="User" method="post">
             Email: ${editUser.email}<br>
             First name: <input type="text" name="Fname" value="${editUser.firstname}"><br>
@@ -67,6 +68,7 @@
     
         <c:if test="${change ne 'edit'}">
         <h2>Add Users</h2>
+        <b>${message}</b>
         <form action="User?action=add" method="post">
             Email: <input type="text" name="email"><br>            
             First name: <input type="text" name="Fname"><br>            

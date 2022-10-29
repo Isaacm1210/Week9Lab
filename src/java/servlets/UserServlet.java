@@ -79,36 +79,44 @@ public class UserServlet extends HttpServlet {
         UserService us = new UserService();
         RoleService rs = new RoleService();
         
+        String email = request.getParameter("email");
+        String firstname = request.getParameter("Fname");
+        String lastname = request.getParameter("Lname");
+        String password = request.getParameter("password");
+        int roleID = Integer.parseInt(request.getParameter("role"));
+            
+            
         //add user method
         if(action.equals("add")){
-            String email = request.getParameter("email");
-            String firstname = request.getParameter("Fname");
-            String lastname = request.getParameter("Lname");
-            String password = request.getParameter("password");
-            int roleID = Integer.parseInt(request.getParameter("role"));
-            try {
-                Role role = rs.getRole(roleID);
-                us.addUser(email, firstname, lastname, password, role);
-            } catch (Exception ex) {
-                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
+            if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("")){
+                request.setAttribute("message", "All fields are requried");
+            }
+            else{
+                try {
+                    Role role = rs.getRole(roleID);
+                    us.addUser(email, firstname, lastname, password, role);
+                } catch (Exception ex) {
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         
         //update user method
         if(action.equals("Update")){
-            session.setAttribute("change", "update");
-            String email = request.getParameter("email");
-            String firstname = request.getParameter("Fname");
-            String lastname = request.getParameter("Lname");
-            String password = request.getParameter("password");
-            int roleID = Integer.parseInt(request.getParameter("role"));
             
-            try{
-                Role role = rs.getRole(roleID);
-                us.updateUser(email, firstname, lastname, password, role);
+            session.setAttribute("change", "update");
+            if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("")){
+                request.setAttribute("message", "All fields are requried");
             }
-            catch(Exception ex){
-                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            else{
+                try{
+                    Role role = rs.getRole(roleID);
+                    us.updateUser(email, firstname, lastname, password, role);
+                }
+                catch(Exception ex){
+                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         
