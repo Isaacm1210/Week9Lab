@@ -30,22 +30,15 @@ public class UserServlet extends HttpServlet {
         HttpSession session = request.getSession();
         UserService us = new UserService();
         
-        try{
-            List<User> user = us.getAll();
-            session.setAttribute("user", user);
-        }
-        catch(Exception ex){
-            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        
         
         
         String action = (String)request.getParameter("action");
-        String Email = (String)request.getParameter("Email");
+        String email = request.getParameter("Email");
         
         if(action != null && action.equals("edit")){
             try {
-                request.setAttribute("Email", Email);
-                User editUser = us.getUser(Email);
+                User editUser = us.getUser(email);
                 request.setAttribute("editUser", editUser);
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
@@ -53,9 +46,23 @@ public class UserServlet extends HttpServlet {
             session.setAttribute("change", "edit");  
         }
         
+        
         if(action != null && action.equals("delete")){
-            request.setAttribute("message", "Delete test");
-            request.setAttribute("Email", Email);
+            
+            try {
+                us.deleteUser(email);
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        try{
+            List<User> user = us.getAll();
+            session.setAttribute("user", user);
+        }
+        catch(Exception ex){
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
@@ -79,7 +86,6 @@ public class UserServlet extends HttpServlet {
             String lastname = request.getParameter("Lname");
             String password = request.getParameter("password");
             int roleID = Integer.parseInt(request.getParameter("role"));
-            request.setAttribute("message", roleID);
             try {
                 Role role = rs.getRole(roleID);
                 us.addUser(email, firstname, lastname, password, role);
@@ -104,18 +110,13 @@ public class UserServlet extends HttpServlet {
             catch(Exception ex){
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
-            request.setAttribute("message", email + " test");
         }
         
         //cancle update
         if(action.equals("Cancel")){
             session.setAttribute("change", "canceled");
         }
-        
-        //delete user method  
-        
-        
-        
+
         try{
             List<User> user = us.getAll();
             request.setAttribute("user", user);

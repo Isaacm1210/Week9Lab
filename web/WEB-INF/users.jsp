@@ -13,8 +13,6 @@
         <title>Manage Users</title>
     </head>
     <body>
-        <h3>${message}</h3>
-        <h3>${Email}</h3>
         <h1>Manage Users</h1>
         <c:if test="${user.size() lt 1}">
             <b>No users found. Please add a user.</b>
