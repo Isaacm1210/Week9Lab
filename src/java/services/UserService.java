@@ -23,4 +23,8 @@ public class UserService {
         User user = userDB.getUser(email);
         return user;
     }
+    
+    public void addUser(){
+        
+    }
 }

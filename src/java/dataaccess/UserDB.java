@@ -83,11 +83,81 @@ public class UserDB {
         return user;
     }
     
-    public void deleteUser(){
+    public void deleteUser(String email) throws Exception{
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        String sql = "DELETE FROM user " 
+                + "WHERE email = ?";
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            ps.executeUpdate();
+        }
+        finally{
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
+    }
+    
+    public void updateUser()throws Exception{
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        String sql = "UPDATE user SET" 
+                + "email = ?" 
+                + "first_name = ?" 
+                + "last_name = ?"
+                + "password = ?"
+                + "role = ?";
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1, sql);
+            ps.setString(2, sql);
+            ps.setString(3, sql);
+            ps.setString(4, sql);
+            ps.setInt(5, 0);
+            ps.executeUpdate();
+        }
+        finally{
+           DBUtil.closeResultSet(rs);
+           DBUtil.closePreparedStatement(ps);
+           cp.freeConnection(con); 
+        }
+        
         
     }
     
-    public void updateUser(){
+    public void addUser() throws Exception{
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        String sql = "INSERT INTO user " 
+                + "(email, firt_name, last_name, password, role) "
+                + "VALUES " 
+                + "(?, ?, ?, ?, ?)";
+        
+        try{
+            ps = con.prepareStatement(sql);
+            ps.setString(1, sql);
+            ps.setString(2, sql);
+            ps.setString(3, sql);
+            ps.setString(4, sql);
+            ps.setInt(5, 1);
+            ps.executeUpdate();
+        }
+        finally{
+            DBUtil.closeResultSet(rs);
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
         
     }
 
