@@ -91,15 +91,25 @@ public class UserServlet extends HttpServlet {
         //update user method
         if(action.equals("Update")){
             session.setAttribute("change", "update");
-            request.setAttribute("message", "update test");
+            String email = request.getParameter("email");
+            String firstname = request.getParameter("Fname");
+            String lastname = request.getParameter("Lname");
+            String password = request.getParameter("password");
+            int roleID = Integer.parseInt(request.getParameter("role"));
             
+            try{
+                Role role = rs.getRole(roleID);
+                us.updateUser(email, firstname, lastname, password, role);
+            }
+            catch(Exception ex){
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            request.setAttribute("message", email + " test");
         }
         
         //cancle update
         if(action.equals("Cancel")){
             session.setAttribute("change", "canceled");
-            request.setAttribute("message", "cancel test");
-            
         }
         
         //delete user method  

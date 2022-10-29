@@ -56,18 +56,12 @@
             Last Name: <input type="text" name="Lname" value="${editUser.lastname}"><br>
             Password: <input type="password" name="password"><br>
             Role:
-            <c:if test="${editUser.role.roleID == 1}">
+            
             <select name="role"><br>
-                <option value="1">System Admin</option>
-                <option value="2">Regular User</option>
+                <option value="1" <c:if test="${editUser.role.roleID == 1}">selected</c:if>>System Admin</option>
+                <option value="2" <c:if test="${editUser.role.roleID == 2}">selected</c:if>>Regular User</option>
             </select> <br>
-            </c:if>
-            <c:if test="${editUser.role.roleID == 2}">
-            <select name="role"><br>
-                <option value="2">Regular User</option>
-                <option value="1">System Admin</option>
-            </select> <br>
-            </c:if>
+            <input type="hidden" name="email" value="${editUser.email}">
             <input type="submit" value="Update" name="action">
             <input type="submit" value="Cancel" name="action">
         </form>

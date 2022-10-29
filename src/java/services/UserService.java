@@ -31,8 +31,10 @@ public class UserService {
         userDB.addUser(user);
     }
     
-    public void updateUser(){
-        
+    public void updateUser(String email, String firstName, String lastName, String password, Role role) throws Exception{
+        User user = new User(email, firstName, lastName, password, role);
+        UserDB userDB = new UserDB();
+        userDB.updateUser(user);
     }
     
     public void deleteUser(){
