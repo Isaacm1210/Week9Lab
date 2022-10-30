@@ -67,11 +67,12 @@ public class UserDB {
             ps.setString(1, email);
             rs = ps.executeQuery();
             while(rs.next()){
+                String userEmail = rs.getString(1);
                 String fistname = rs.getString(2);
                 String lastname = rs.getString(3);
                 String password = rs.getString(4);
                 Role role = rService.getRole(rs.getInt(5));
-                user = new User(email, fistname, lastname, password, role);
+                user = new User(userEmail, fistname, lastname, password, role);
             }
             
         }

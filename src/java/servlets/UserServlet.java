@@ -29,10 +29,6 @@ public class UserServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         UserService us = new UserService();
-        
-        
-        
-        
         String action = (String)request.getParameter("action");
         String email = request.getParameter("Email");
         
@@ -48,13 +44,11 @@ public class UserServlet extends HttpServlet {
         
         
         if(action != null && action.equals("delete")){
-            
             try {
                 us.deleteUser(email);
             } catch (Exception ex) {
                 Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
+            }  
         }
         
         try{
@@ -63,8 +57,8 @@ public class UserServlet extends HttpServlet {
         }
         catch(Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Error");
         }
-        
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
         
     }
@@ -85,44 +79,43 @@ public class UserServlet extends HttpServlet {
         String password = request.getParameter("password");
         int roleID = Integer.parseInt(request.getParameter("role"));
             
-            
-        //add user method
-        if(action.equals("add")){
-            
-            if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("")){
-                request.setAttribute("message", "All fields are requried");
-            }
-            else{
-                try {
-                    Role role = rs.getRole(roleID);
-                    us.addUser(email, firstname, lastname, password, role);
-                } catch (Exception ex) {
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        try{
+            switch (action){
+                case "add":{
+                    if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("") || password == null || email == null 
+                            || firstname == null || lastname == null){
+                        request.setAttribute("message", "All fields are required");
+                    }
+                    else{
+                        String emailCheck = us.userExist(email);
+                        if(emailCheck == null){
+                            Role role = rs.getRole(roleID);
+                            us.addUser(email, firstname, lastname, password, role);
+                        }
+                        else{
+                            request.setAttribute("message", "This email is already in use");
+                        }
+                    }
                 }
+                case "Update":{
+                    session.setAttribute("change", "update");
+                    if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("") || password == null || email == null 
+                            || firstname == null || lastname == null){
+                        request.setAttribute("message", "All fields are required");
+                    }
+                    else{
+                        Role role = rs.getRole(roleID);
+                        us.updateUser(email, firstname, lastname, password, role);
+                    }
+                }
+                case "Cancel":{
+                    session.setAttribute("change", "canceled");
+                 }
             }
         }
-        
-        //update user method
-        if(action.equals("Update")){
-            
-            session.setAttribute("change", "update");
-            if(password.equals("") || email.equals("") || firstname.equals("") || lastname.equals("")){
-                request.setAttribute("message", "All fields are requried");
-            }
-            else{
-                try{
-                    Role role = rs.getRole(roleID);
-                    us.updateUser(email, firstname, lastname, password, role);
-                }
-                catch(Exception ex){
-                    Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-        
-        //cancle update
-        if(action.equals("Cancel")){
-            session.setAttribute("change", "canceled");
+        catch(Exception ex){
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Error");
         }
 
         try{
@@ -131,6 +124,7 @@ public class UserServlet extends HttpServlet {
         }
         catch(Exception ex){
             Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            request.setAttribute("error", "Error");
         }
         getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
     }

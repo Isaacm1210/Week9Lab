@@ -14,6 +14,7 @@
     </head>
     <body>
         <h1>Manage Users</h1>
+        <b>${error}</b>
         <c:if test="${user.size() lt 1}">
             <b>No users found. Please add a user.</b>
         </c:if>
@@ -63,7 +64,7 @@
             <input type="hidden" name="email" value="${editUser.email}">
             <input type="submit" value="Update" name="action">
             <input type="submit" value="Cancel" name="action">
-        </form>
+        </form>  
         </c:if>
     
         <c:if test="${change ne 'edit'}">

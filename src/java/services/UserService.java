@@ -41,4 +41,16 @@ public class UserService {
         UserDB userDB = new UserDB();
         userDB.deleteUser(email);
     }
+    
+    public String userExist(String email) throws Exception{
+        UserDB userDB = new UserDB();
+        User user = userDB.getUser(email);
+        
+        if (user == null){
+            return null;
+        }
+        else{
+            return user.getEmail();
+        } 
+    }
 }
