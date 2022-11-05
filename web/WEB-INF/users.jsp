@@ -30,8 +30,8 @@
             <c:forEach var="user" items="${user}">            
             <tr>
                 <td>${user.email}</td>
-                <td>${user.firstname}</td>
-                <td>${user.lastname}</td>
+                <td>${user.firstName}</td>
+                <td>${user.lastName}</td>
                 <td>${user.role.roleName}</td>
                 
                 <td><a href="<c:url value='/User'><c:param name='action' value='edit'/>
@@ -52,14 +52,14 @@
              <b>${message}</b>
         <form action="User" method="post">
             Email: ${editUser.email}<br>
-            First name: <input type="text" name="Fname" value="${editUser.firstname}"><br>
-            Last Name: <input type="text" name="Lname" value="${editUser.lastname}"><br>
+            First name: <input type="text" name="Fname" value="${editUser.firstName}"><br>
+            Last Name: <input type="text" name="Lname" value="${editUser.lastName}"><br>
             Password: <input type="password" name="password"><br>
             Role:
             
             <select name="role"><br>
-                <option value="1" <c:if test="${editUser.role.roleID == 1}">selected</c:if>>System Admin</option>
-                <option value="2" <c:if test="${editUser.role.roleID == 2}">selected</c:if>>Regular User</option>
+                <option value="1" <c:if test="${editUser.role.roleId == 1}">selected</c:if>>System Admin</option>
+                <option value="2" <c:if test="${editUser.role.roleId == 2}">selected</c:if>>Regular User</option>
             </select> <br>
             <input type="hidden" name="email" value="${editUser.email}">
             <input type="submit" value="Update" name="action">

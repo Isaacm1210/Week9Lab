@@ -26,14 +26,21 @@ public class UserService {
     }
     
     public void addUser(String email, String firstName, String lastName, String password, Role role) throws Exception{
-        User user = new User(email, firstName, lastName, password, role);
+        User user = new User(email, firstName, lastName, password);
         UserDB userDB = new UserDB();
+        user.setRole(role);
+        
         userDB.addUser(user);
     }
     
     public void updateUser(String email, String firstName, String lastName, String password, Role role) throws Exception{
-        User user = new User(email, firstName, lastName, password, role);
         UserDB userDB = new UserDB();
+        User user = userDB.getUser(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setPassword(password);
+        user.setRole(role);
+        
         userDB.updateUser(user);
     }
     
